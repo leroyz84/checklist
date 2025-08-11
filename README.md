@@ -11,6 +11,15 @@ Just run the container and put it behind some kind of revere proxy.
 ## updates
 Probably none
 
-
 ## Security
 run local, or put it behind some auth mechanism.
+
+## Build & run docker
+```bash
+docker build -t checklist .
+docker run -d -p 8080:8080 checklist
+```
+or just compose
+```bash
+docker-compose up
+```
