@@ -1,7 +1,7 @@
 # Checklist
 Simple Python Flask application to generate a checklist template to easy check off.
 
-My use-case is that i often am sporting ant noticing i forgot my water bottle, or my headphones.
+My use-case is that i often go sporting and finding out i forgot my water bottle, or my headphones.
 
 I had the need for an too easy app that i can mark as it's in my duffel bag.
 
