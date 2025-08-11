@@ -14,9 +14,6 @@ COPY app.py app.py
 
 COPY checklists/ checklists/
 
-# Expose the port the app runs on
-EXPOSE 5000
-
 USER nobody
 
 # Command to run the application
