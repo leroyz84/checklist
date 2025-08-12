@@ -15,14 +15,17 @@ HTML_TEMPLATE = Template("""<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <title>$title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
+        body { background: #DDDDDD; font-family: Arial, sans-serif; margin: 20px; font-size: 18pt; }
         h1 { color: #333; }
         ul { list-style-type: none; padding: 0; }
         li { margin: 5px 0; }
         input[type="checkbox"] { margin-right: 10px; }
         label { cursor: pointer; }
-        form { display: inline; }
+        form { display: inline; font-size: 18pt; }
+        a { color: #0099FF;   }
+        button { font-size: 14pt; background: #FF9999; }
     </style>
 </head>
 <body>
@@ -31,14 +34,14 @@ HTML_TEMPLATE = Template("""<!DOCTYPE html>
         <ul>
             $items
         </ul>
-        <button type="submit" name="action" value="save">Save</button>
     </form>
-    <form method="POST" style="margin-top:10px;">
-        <button type="submit" name="action" value="reset">Reset</button>
-    </form>
-    <p><a href="/">Back to file list</a></p>
+    <script type="text/javascript">
+        // keep screen on, don't go to standby
+        navigator.wakeLock.request('screen');
+    </script>
 </body>
-</html>""")
+</html>
+""")
 
 
 def generate_checklist(file_path, title):
@@ -60,8 +63,15 @@ def generate_checklist(file_path, title):
         f'</li>'
         for i, task in enumerate(tasks)
     )
+    back = """
+    <br>
+    <form method="POST" style="margin-top:10px;">
+        <button type="submit" name="action" value="reset">Reset</button>
+    </form>
+    <p><a href="/">Back to file list</a></p>
+    """
+    return HTML_TEMPLATE.substitute(title=title, items=items_html+back)
 
-    return HTML_TEMPLATE.substitute(title=title, items=items_html)
 
 
 @app.route("/")
@@ -80,12 +90,12 @@ def home():
         for f in files
     ]
 
-    return f"""
-        <h1>Available Checklists</h1>
+    items_html = f"""
         <ul>
             {''.join(file_links)}
         </ul>
     """
+    return HTML_TEMPLATE.substitute(title="Checklists", items=items_html)
 
 
 @app.route("/checklist/<filename>", methods=["GET", "POST"])
@@ -106,11 +116,7 @@ def view_checklist(filename):
         ]
         file_key = str(file_path)
 
-        if action == "save":
-            selected = {tasks[i] for i in range(len(tasks)) if f"item{i}" in request.form}
-            selections[file_key] = selected
-
-        elif action == "reset":
+        if action == "reset":
             selections[file_key] = set()
 
         return redirect(url_for("view_checklist", filename=filename))
@@ -120,5 +126,5 @@ def view_checklist(filename):
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8080)
+    app.run(host='0.0.0.0', port=8080, debug=True)
 
