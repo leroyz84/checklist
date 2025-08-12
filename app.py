@@ -25,7 +25,9 @@ HTML_TEMPLATE = Template("""<!DOCTYPE html>
         label { cursor: pointer; }
         form { display: inline; font-size: 18pt; }
         a { color: #0099FF;   }
-        button { font-size: 14pt; background: #FF9999; }
+        button.save { font-size: 14pt; background: #99FF99; }
+        button.reset { font-size: 14pt; background: #FF9999; }
+
     </style>
 </head>
 <body>
@@ -66,8 +68,8 @@ def generate_checklist(file_path, title):
     back = """
     <br>
     <form method="POST" style="margin-top:10px;">
-        <button type="submit" name="action" value="save">Save</button>
-        <button type="submit" name="action" value="reset">Reset</button>
+        <button type="submit" class="save" name="action" value="save">Save</button>
+        <button type="submit" class="reset" name="action" value="reset">Reset</button>
     </form>
     <p><a href="/">Back to file list</a></p>
     """
