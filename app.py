@@ -66,6 +66,7 @@ def generate_checklist(file_path, title):
     back = """
     <br>
     <form method="POST" style="margin-top:10px;">
+        <button type="submit" name="action" value="save">Save</button>
         <button type="submit" name="action" value="reset">Reset</button>
     </form>
     <p><a href="/">Back to file list</a></p>
@@ -116,7 +117,11 @@ def view_checklist(filename):
         ]
         file_key = str(file_path)
 
-        if action == "reset":
+        if action == "save":
+            selected = {tasks[i] for i in range(len(tasks)) if f"item{i}" in request.form}
+            selections[file_key] = selected
+
+        elif action == "reset":
             selections[file_key] = set()
 
         return redirect(url_for("view_checklist", filename=filename))
