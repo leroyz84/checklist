@@ -3,7 +3,7 @@ services:
   checklist:
     build: .
     ports:
-      - "8080:8080"
+      - "18080:8080"
     volumes:
       - checklists:/app/checklists
 
