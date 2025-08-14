@@ -2,6 +2,7 @@ version: '3'
 services:
   checklist:
     build: .
+    restart: always
     ports:
       - "18080:8080"
     volumes:
