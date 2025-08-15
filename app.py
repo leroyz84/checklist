@@ -37,10 +37,6 @@ HTML_TEMPLATE = Template("""<!DOCTYPE html>
             $items
         </ul>
     </form>
-    <script type="text/javascript">
-        // keep screen on, don't go to standby
-        navigator.wakeLock.request('screen');
-    </script>
 </body>
 </html>
 """)
