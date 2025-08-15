@@ -6,7 +6,7 @@ services:
     ports:
       - "18080:8080"
     volumes:
-      - checklists:/app/checklists
+      - ./checklists:/app/checklists
 
 volumes:
   checklists:
