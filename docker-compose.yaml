@@ -2,10 +2,11 @@ version: '3'
 services:
   checklist:
     build: .
+    restart: always
     ports:
-      - "8080:8080"
+      - "18080:8080"
     volumes:
-      - checklists:/app/checklists
+      - ./checklists:/app/checklists
 
 volumes:
   checklists:
