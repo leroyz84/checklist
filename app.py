@@ -53,14 +53,26 @@ def generate_checklist(file_path, title):
     file_key = str(file_path)
     current_selection = selections.get(file_key, set())
 
-    items_html = "\n".join(
-        f'<li>'
-        f'<input type="checkbox" id="item{i}" name="item{i}" '
-        f'{"checked" if task in current_selection else ""}>'
-        f'<label for="item{i}">{task}</label>'
-        f'</li>'
-        for i, task in enumerate(tasks)
-    )
+    items = []
+    for i, task in enumerate(tasks):
+        if task.lstrip().startswith("---"):
+            # Render as bold header, strip leading dashes and whitespace
+            header_text = task.strip("-").strip()
+            if i > 0:
+                items.append(f'<br><li><strong>{header_text}</strong></li>')
+            else:
+                items.append(f'<li><strong>{header_text}</strong></li>')
+        else:
+            checked = "checked" if task in current_selection else ""
+            items.append(
+                f'<li>'
+                f'<input type="checkbox" id="item{i}" name="item{i}" {checked}>'
+                f'<label for="item{i}">{task}</label>'
+                f'</li>'
+            )
+
+    items_html = "\n".join(items)
+
     back = """
     <br>
     <form method="POST" style="margin-top:10px;">
